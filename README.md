@@ -1,3 +1,6 @@
+## The Why?
+We're getting a new puppy this evening. The (rest of the) family is very excited and I know there will be a great many photos taken. This feels like a great opportunity to build a photo album app and practice some nice CSS effects.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
