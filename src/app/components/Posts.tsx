@@ -33,6 +33,15 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
               alt={post?.desc}
             />
           ) : null}
+          <div className="relative h-96 w-full">
+            <Image
+              priority
+              src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
+              alt={post?.desc}
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
         </section>
       ))}
     </main>
