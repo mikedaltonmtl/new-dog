@@ -1,8 +1,12 @@
+import Posts from "@/app/components/Posts";
+import { cachedClient } from "../../sanity/lib/client";
+import { postsQuery } from "../../sanity/lib/queries";
 
-export default function Home() {
+export default async function Home() {
+
+  const posts = await cachedClient(postsQuery);
+
   return (
-    <main className="flex items-center justify-center min-h-screen">
-      Populate me with Sanity Content
-    </main>
+    <Posts posts={posts} />
   );
 }

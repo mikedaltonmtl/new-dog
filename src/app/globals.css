@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.in-from-left {
+  will-change: transform;
+  opacity: 0.5;
+  transition: transform 1000ms, opacity 400ms;
+  /* transition: transform 250ms; */
+  transition-delay: 300ms;
+}
+
+.in-from-left:hover {
+  /* transform: scale(1.2); */
+  opacity: 1;
+  transform: translateX(200px);
+  transition: transform 500ms;
+  transition-delay: 0ms;
+}
+
+.btn-ease-examples {
+  /* ease-out */
+  transition-timing-function:
+    cubic-bezier(0.215, 0.61, 0.355, 1);
+  /* ease-in */
+  transition-timing-function:
+    cubic-bezier(0.75, 0, 1, 1);
+  /* ease-in-out */
+  transition-timing-function:
+    cubic-bezier(0.645, 0.045, 0.355, 1);
+  /* ease */
+  transition-timing-function:
+    cubic-bezier(0.44, 0.21, 0, 1);
+}
+
+.btn-slow-descent {
+  will-change: transform;
+  /* goes down slow when hover ends */
+  transition: transform 450ms;
+}
+
+.btn-slow-descent:hover {
+  /* goes up fast */
+  transition: transform 125ms;
+  transform: translateY(-10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
