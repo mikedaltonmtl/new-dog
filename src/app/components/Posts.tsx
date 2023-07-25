@@ -4,6 +4,7 @@ import type { SanityDocument } from "@sanity/client";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../../sanity/lib/client";
+import { motion, AnimatePresence } from "framer-motion";
 
 const builder = imageUrlBuilder(client);
 
@@ -24,7 +25,7 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
           <h2 className="p-4 hover:bg-blue-50">Title: {post.title}</h2>
           <p>Desc: {post.desc}</p>
           <p>index: {index}</p>
-          {post?.photo ? (
+          {/* {post?.photo ? (
             <Image
               className="float-left m-0 w-1/3 mr-4 rounded-lg in-from-left"
               src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
@@ -32,16 +33,35 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
               height={getDimensions(post.photo.asset._ref).height}
               alt={post?.desc}
             />
-          ) : null}
-          <div className="relative h-96 w-full">
+          ) : null} */}
+
+          <motion.div
+            initial={{
+              x: '100vw',
+              opacity: 0,
+              scale: 0.5,
+            }}
+            animate={{
+              x: 0,
+              opacity: 1,
+              scale: 1,
+            }}
+            transition={{
+              duration: 3,
+            }}
+            className="float-left m-0 w-1/3 mr-4"
+          >
             <Image
               priority
               src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
               alt={post?.desc}
-              layout="fill"
-              objectFit="contain"
+              // layout="fill"
+              // objectFit="contain"
+              width={getDimensions(post.photo.asset._ref).width}
+              height={getDimensions(post.photo.asset._ref).height}
+              className="rounded-lg"
             />
-          </div>
+          </motion.div>
         </section>
       ))}
     </main>
