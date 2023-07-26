@@ -21,7 +21,7 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
     <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
 
       {posts.map((post, index) => (
-        <section key={post._id}>
+        <section key={post._id} className="border-violet-700 bg-orange-300">
           <h2 className="p-4 hover:bg-blue-50">Title: {post.title}</h2>
           <p>Desc: {post.desc}</p>
           <p>index: {index}</p>
@@ -37,17 +37,17 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
 
           <motion.div
             initial={{
-              x: '100vw',
+              x: '100%',
               opacity: 0,
               scale: 0.5,
             }}
-            animate={{
+            whileInView={{
               x: 0,
               opacity: 1,
               scale: 1,
             }}
             transition={{
-              duration: 3,
+              duration: 10,
             }}
             className="float-left m-0 w-1/3 mr-4"
           >
