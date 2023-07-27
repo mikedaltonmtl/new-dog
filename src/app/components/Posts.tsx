@@ -8,59 +8,78 @@ import { motion } from "framer-motion";
 
 const builder = imageUrlBuilder(client);
 
-const effects = [
-  {
+const effectTemplate = function(fromLeft: boolean, roll: boolean) {
+  const xValue: string = fromLeft ? '-100%' : '100%';
+  return roll ? {
     hidden: {
-      x: '-100%',
+      x: xValue, y: 50,
+      opacity: 0,
+      scale: 0.2,
+    },
+    visible: {
+      x: 0, y: 0,
+      opacity: 1,
+      scale: 1,
+      rotate: 720,
+      transition: {
+        duration: 1.5,
+        delay: 0.25,
+      }
+    },
+  } : {
+    hidden: {
+      x: xValue, y: 0,
       opacity: 0,
       scale: 1,
     },
     visible: {
       x: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        // duration: 1,
-        type: 'spring',
-        delay: 0.5,
-      }
-    },
-  },
-  {
-    hidden: {
-      x: '100%',
-      opacity: 0,
-      scale: 1,
-    },
-    visible: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        // duration: 1,
-        type: 'spring',
-        delay: 0.5,
-      }
-    },
-  },
-  {
-    hidden: {
-      y: 100,
-      opacity: 0,
-      scale: 1,
-    },
-    visible: {
       y: 0,
       opacity: 1,
       scale: 1,
       transition: {
-        // duration: 1,
         type: 'spring',
+        stiffness: 150,
         delay: 0.5,
       }
-    },
-  },
-];
+    }
+  };
+};
+
+const getEffect = function(index: number) {
+  switch (index % 5 || 0) {
+  case 4:
+    // Roll in from right (fromLeft?, roll?)
+    return effectTemplate(false, true);
+  case 3:
+    // Slide in from left (fromLeft?, roll?)
+    return effectTemplate(true, false);
+  case 2:
+    // Appear from center
+    return {
+      hidden: {
+        x: 0, y: 0,
+        opacity: 0,
+        scale: 0,
+      },
+      visible: {
+        x: 0, y: 0,
+        opacity: 1,
+        scale: 1,
+        transition: {
+          duration: 1.5,
+          delay: 0,
+        }
+      },
+    };
+  case 1:
+    // Roll in from left (fromLeft?, roll?)
+    return effectTemplate(true, true);
+  default:
+    // Slide in from right (fromLeft?, roll?)
+    return effectTemplate(false, false);
+  }
+};
 
 export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
 
@@ -76,17 +95,14 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
     <main className="flex flex-col items-center">
 
       {posts.map((post, index) => (
-        <section key={post._id} className="border-2 border-blue-50 flex flex-nowrap justify-center w-full my-16">
-          {/* <motion.div className="basis-1/3 border-2 border-blue-600">
-            <h2 className="p-4 hover:bg-blue-50">Title: {post.title}</h2>
-            <p>Desc: {post.desc}</p>
-            <p>index: {index} dimensions: {getDimensions(post.photo.asset._ref).width} x {getDimensions(post.photo.asset._ref).height}</p>
-          </motion.div> */}
+        <section key={post._id} className="flex flex-nowrap justify-center w-full my-8">
           <motion.div
-            variants={effects[index]}
+            variants={getEffect(index || 0)}
             initial='hidden'
             whileInView='visible'
-            className="m-0 basis-1/4 border-5 border-red-500"
+            // viewport={{ margin: "-100px 0px -100px 0px", once: true }}
+            viewport={{ margin: "-100px 0px -100px 0px" }}
+            className="m-0 basis-1/4 shadow-lg shadow-gray-600 overflow-hidden rounded-lg"
           >
             {post?.photo ? (
               <Image
@@ -95,7 +111,7 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
                 alt={post?.desc}
                 width={getDimensions(post.photo.asset._ref).width}
                 height={getDimensions(post.photo.asset._ref).height}
-                className="rounded-lg"
+                className="photo"
               />
             ) : null}
           </motion.div>

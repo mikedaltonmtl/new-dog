@@ -12,6 +12,19 @@
   --color-blue: hsl(270deg 75% 60%);
 }
 
+.photo {
+  will-change: transform;
+  scale: 1;
+  transition: scale 1s;
+  transition-delay: 0.25s;
+}
+
+.photo:hover {
+  scale: 2;
+  transition: scale 3s;
+  transition-delay: 0ms;
+}
+
 .in-from-left {
   will-change: transform;
   opacity: 0.5;
