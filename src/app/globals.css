@@ -25,6 +25,13 @@
   transition-delay: 0ms;
 }
 
+.overlay {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-family: Monaco, Helvetica, sans-serif;
+}
+
 .in-from-left {
   will-change: transform;
   opacity: 0.5;

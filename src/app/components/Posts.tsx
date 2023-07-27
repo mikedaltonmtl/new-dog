@@ -38,9 +38,10 @@ const effectTemplate = function(fromLeft: boolean, roll: boolean) {
       opacity: 1,
       scale: 1,
       transition: {
+        duration: 1,
         type: 'spring',
-        stiffness: 150,
-        delay: 0.5,
+        stiffness: 100,
+        delay: 0.75,
       }
     }
   };
@@ -91,18 +92,17 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
   };
 
   return (
-    // <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
     <main className="flex flex-col items-center">
 
       {posts.map((post, index) => (
-        <section key={post._id} className="flex flex-nowrap justify-center w-full my-8">
+        <section key={post._id} className="flex flex-nowrap justify-center w-full my-16">
           <motion.div
             variants={getEffect(index || 0)}
             initial='hidden'
             whileInView='visible'
-            // viewport={{ margin: "-100px 0px -100px 0px", once: true }}
-            viewport={{ margin: "-100px 0px -100px 0px" }}
-            className="m-0 basis-1/4 shadow-lg shadow-gray-600 overflow-hidden rounded-lg"
+            viewport={{ margin: "-50px 0px -50px 0px", once: true }}
+            // viewport={{ margin: "-100px 0px -100px 0px" }}
+            className="m-0 basis-1/3 shadow-lg shadow-gray-600 overflow-hidden rounded-lg relative"
           >
             {post?.photo ? (
               <Image
@@ -114,6 +114,17 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
                 className="photo"
               />
             ) : null}
+            <motion.div
+              className="overlay text-slate-200"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 2 }}
+              viewport={{ once: true }}
+            >
+              {post.title && <p className="text-base">{post.title}</p>}
+              {post.desc && <p className="text-sm">{post.desc}</p>}
+              {post.date && <p className="text-sm">{post.date}</p>}
+            </motion.div>
           </motion.div>
         </section>
       ))}
