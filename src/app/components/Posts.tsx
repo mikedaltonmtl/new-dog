@@ -4,9 +4,63 @@ import type { SanityDocument } from "@sanity/client";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "../../../sanity/lib/client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const builder = imageUrlBuilder(client);
+
+const effects = [
+  {
+    hidden: {
+      x: '-100%',
+      opacity: 0,
+      scale: 1,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        // duration: 1,
+        type: 'spring',
+        delay: 0.5,
+      }
+    },
+  },
+  {
+    hidden: {
+      x: '100%',
+      opacity: 0,
+      scale: 1,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        // duration: 1,
+        type: 'spring',
+        delay: 0.5,
+      }
+    },
+  },
+  {
+    hidden: {
+      y: 100,
+      opacity: 0,
+      scale: 1,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        // duration: 1,
+        type: 'spring',
+        delay: 0.5,
+      }
+    },
+  },
+];
 
 export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
 
@@ -18,49 +72,32 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
   };
 
   return (
-    <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
+    // <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
+    <main className="flex flex-col items-center">
 
       {posts.map((post, index) => (
-        <section key={post._id} className="border-violet-700 bg-orange-300">
-          <h2 className="p-4 hover:bg-blue-50">Title: {post.title}</h2>
-          <p>Desc: {post.desc}</p>
-          <p>index: {index}</p>
-          {/* {post?.photo ? (
-            <Image
-              className="float-left m-0 w-1/3 mr-4 rounded-lg in-from-left"
-              src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
-              width={getDimensions(post.photo.asset._ref).width}
-              height={getDimensions(post.photo.asset._ref).height}
-              alt={post?.desc}
-            />
-          ) : null} */}
-
+        <section key={post._id} className="border-2 border-blue-50 flex flex-nowrap justify-center w-full my-16">
+          {/* <motion.div className="basis-1/3 border-2 border-blue-600">
+            <h2 className="p-4 hover:bg-blue-50">Title: {post.title}</h2>
+            <p>Desc: {post.desc}</p>
+            <p>index: {index} dimensions: {getDimensions(post.photo.asset._ref).width} x {getDimensions(post.photo.asset._ref).height}</p>
+          </motion.div> */}
           <motion.div
-            initial={{
-              x: '100%',
-              opacity: 0,
-              scale: 0.5,
-            }}
-            whileInView={{
-              x: 0,
-              opacity: 1,
-              scale: 1,
-            }}
-            transition={{
-              duration: 10,
-            }}
-            className="float-left m-0 w-1/3 mr-4"
+            variants={effects[index]}
+            initial='hidden'
+            whileInView='visible'
+            className="m-0 basis-1/4 border-5 border-red-500"
           >
-            <Image
-              priority
-              src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
-              alt={post?.desc}
-              // layout="fill"
-              // objectFit="contain"
-              width={getDimensions(post.photo.asset._ref).width}
-              height={getDimensions(post.photo.asset._ref).height}
-              className="rounded-lg"
-            />
+            {post?.photo ? (
+              <Image
+                priority
+                src={builder.image(post.photo).width(getDimensions(post.photo.asset._ref).width).height(getDimensions(post.photo.asset._ref).height).url()}
+                alt={post?.desc}
+                width={getDimensions(post.photo.asset._ref).width}
+                height={getDimensions(post.photo.asset._ref).height}
+                className="rounded-lg"
+              />
+            ) : null}
           </motion.div>
         </section>
       ))}
