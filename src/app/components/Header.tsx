@@ -11,9 +11,17 @@ export default function Header() {
       initial={{ x: '-100%' }}
       whileInView={{ x: 0 }}
       transition={{ duration: 1, delay: 1 }}
-      // viewport={{ once: true }}
+      viewport={{ once: true }}
     >
-      <h1 className="topHeader text-9xl text-center">NEW DOG</h1>
+      <motion.div
+        className="m-0"
+        initial={{ x: '100%', opacity: 0 }}
+        whileInView={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1, delay: 2 }}
+        viewport={{ once: true }}
+      >
+        <h1 className="topHeader text-9xl text-center">NEW DOG</h1>
+      </motion.div>
     </motion.header>
   );
 }
