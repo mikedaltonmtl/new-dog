@@ -12,6 +12,10 @@
   --color-blue: hsl(270deg 75% 60%);
 }
 
+.topHeader {
+  font-family: var(--font-poppins);
+}
+
 .photo {
   will-change: transform;
   scale: 1;

@@ -101,7 +101,6 @@ export default function Posts({ posts = [] }: { posts: SanityDocument[] }) {
             initial='hidden'
             whileInView='visible'
             viewport={{ margin: "-50px 0px -50px 0px", once: true }}
-            // viewport={{ margin: "-100px 0px -100px 0px" }}
             className="m-0 basis-1/3 shadow-lg shadow-gray-600 overflow-hidden rounded-lg relative"
           >
             {post?.photo ? (
